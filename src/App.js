@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import HistoryModal from './components/HistoryModal';
 import './App.css';
 
+import Axios from 'axios'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,11 +19,24 @@ class App extends Component {
 
   
   componentDidMount() {
-    //create request here
+    Axios.get('/api/messages').then( (res) => {
+      this.setState({
+        allMessages: res.data
+      })
+    })
   }
 
-  createMessage() {
-    //create request here
+  createMessage = () => {
+    let newMessage = {
+      username: this.state.username,
+      message: this.state.message
+    }
+    Axios.post('/api/messages', newMessage).then( res => {
+      this.setState({
+        allMessages: res.data
+
+      })
+    })
   }
   
 
